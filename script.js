@@ -40,14 +40,16 @@ function generatePassword() {
     generatePassword();
   }
 
-  // // Create an object to store all of the user's choices
-  // var passwordCriteria
+  // Create an object to store all of the user's choices
+  var passwordCriteria = {
+    length: length,
+    lowercase: useLowerCaseCharacters,
+    uppercase: useUpperCaseCharacters,
+    number: useNumberCharacters,
+    special: useSpecialCharacters
+  }
 
-  console.log(length);
-  console.log(useLowerCaseCharacters);
-  console.log(useUpperCaseCharacters);
-  console.log(useNumberCharacters);
-  console.log(useSpecialCharacters);
+  console.log(passwordCriteria);
 }
 
 
