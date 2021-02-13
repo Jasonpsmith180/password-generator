@@ -12,8 +12,6 @@ var specialCharacters = ["~","!","@","#","$","%","^","&","*","(",")","-","+","{"
 
 // Global variable for password criteria so the password can be combined after the script collects user inputs
 var possibleCharacters = [];
-// possibleCharacters.push(lowerCaseCharacters.concat(upperCaseCharacters));
-// console.log(possibleCharacters);
 
 // Create a function to prompt user for password criteria
 function generatePassword() {
@@ -25,7 +23,13 @@ function generatePassword() {
 
   // Create conditional statement to see if the user input a put a number less than 8 or larger than 128 and prompt them to enter a number between 8 and 128
   if (length < 8 || length > 128) {
-    length = parseInt(prompt("Please enter a number between 8 and 128"));
+    alert("Please enter a number between 8 and 128");
+    generatePassword();
+  }
+
+  if (isNaN(length)) {
+    alert("Please enter a number between 8 and 128");
+    generatePassword();
   }
   
   // Prompts to have users choose password criteria
@@ -132,9 +136,11 @@ function generatePassword() {
     possibleCharacters = lowerCaseCharacters.concat(upperCaseCharacters,numberCharacters,specialCharacters);
   }
   
+  // For loop to iterate through the indices based on the password length input by the user
   for(var i = 0; i < length; i++) {
     output += possibleCharacters[Math.floor(Math.random() * possibleCharacters.length)];
   }
+  // 
   return output;
 }
 
