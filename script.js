@@ -10,6 +10,11 @@ var numberCharacters = ["1","2","3","4","5","6","7","8","9","0"];
 // Array with special characters for the password
 var specialCharacters = ["~","!","@","#","$","%","^","&","*","(",")","-","+","{","}","<",">","?"];
 
+// Global variable for password criteria so the password can be combined after the script collects user inputs
+var possibleCharacters = [];
+// possibleCharacters.push(lowerCaseCharacters.concat(upperCaseCharacters));
+// console.log(possibleCharacters);
+
 // Create a function to prompt user for password criteria
 function generatePassword() {
 
@@ -22,26 +27,26 @@ function generatePassword() {
   }
   
   // Prompts to have users choose password criteria
-  // Create prompt to include lowercase characters
+  // Prompt to include lowercase characters
   var useLowerCaseCharacters = confirm("Do you want the password to use lowercase characters?");
 
-  // Create prompt to include uppercase characters
+  // Prompt to include uppercase characters
   var useUpperCaseCharacters = confirm("Do you want the password to use uppercase characters?");
 
-  // Create prompt to include number characters
+  // Prompt to include number characters
   var useNumberCharacters = confirm("Do you want the password to use number characters?");
 
-  // Create prompt to include special characters
+  // Prompt to include special characters
   var useSpecialCharacters = confirm("Do you want the password to use special characters?");
 
-  // Create conditional statement to check that at least one criteria has been chosen
+  // Conditional statement to check that at least one criteria has been chosen
   if (useLowerCaseCharacters === false && useUpperCaseCharacters === false && useNumberCharacters === false && useSpecialCharacters === false) {
     alert("You must choose at least one criteria. Please try again.");
     generatePassword();
   }
 
-  // Create an object to store all of the user's choices
-  var passwordCriteria = {
+  // Object to store all of the user's choices
+  var password = {
     length: length,
     lowercase: useLowerCaseCharacters,
     uppercase: useUpperCaseCharacters,
@@ -49,7 +54,82 @@ function generatePassword() {
     special: useSpecialCharacters
   }
 
-  console.log(passwordCriteria);
+  // Conditional statements to designate which arrays to include in the password
+
+  // Single Criteria Confirms
+  // Lowercase only
+  if (password.lowercase){
+    possibleCharacters = lowerCaseCharacters;
+  }
+  // Uppercase only
+  if (password.uppercase){
+    possibleCharacters = upperCaseCharacters;
+  }
+  // Numbers only
+  if (password.number) {
+    possibleCharacters = numberCharacters;
+  }
+  // Special Only
+  if (password.special) {
+    possibleCharacters = specialCharacters;
+  }
+
+  // Two Criteria Confirms
+  // Lowercase & Uppercase
+  if (password.lowercase && password.uppercase) {
+    possibleCharacters = lowerCaseCharacters.concat(upperCaseCharacters);
+  }
+
+  // Lowercase & Numbers
+  if (password.lowercase && password.number) {
+    possibleCharacters = lowerCaseCharacters.concat(numberCharacters);
+  }
+
+  // Lowercase & Special
+  if (password.lowercase && password.special) {
+    possibleCharacters = lowerCaseCharacters.concat(specialCharacters);
+  }
+  
+  // Uppercase & Number 
+  if (password.uppercase && password.number) {
+    possibleCharacters = upperCaseCharacters.concat(numberCharacters);
+  }
+
+  // Uppercase & Special
+  if (password.uppercase && password.special) {
+    possibleCharacters = upperCaseCharacters.concat(specialCharacters);
+  }
+
+  if (password.number && password.special) {
+    possibleCharacters = numberCharacters.concat(specialCharacters);
+  }
+
+  // Three Criteria Confirms
+  // Lowercase, Uppercase & Number
+  if (password.lowercase && password.uppercase && password.number) {
+  possibleCharacters = lowerCaseCharacters.concat(upperCaseCharacters,numberCharacters);
+  }
+
+  // Lowercase, Uppercase & Special
+  if (password.lowercase && password.uppercase && password.special) {
+    possibleCharacters = lowerCaseCharacters.concat(upperCaseCharacters,specialCharacters);
+  }
+
+  // LowerCase, Number & Special
+  if (password.lowercase && password.number && password.special) {
+    possibleCharacters = lowerCaseCharacters.concat(numberCharacters,specialCharacters);
+  }
+
+  // Uppercase, Number & Special
+  if (password.uppercase && password.number && password.special) {
+    possibleCharacters = upperCaseCharacters.concat(numberCharacters,specialCharacters);
+  }
+
+  // All Criteria Confirms
+  if (password.lowercase && password.uppercase && password.number && password.special) {
+    possibleCharacters = lowerCaseCharacters.concat(upperCaseCharacters,numberCharacters,specialCharacters);
+    console.log(possibleCharacters);
+  }
 }
 
 
@@ -59,7 +139,7 @@ function getRandom(params) {
 }
 
 // Create function to generate password with user inputs and getRandom()
-
+var output = "";
 
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
@@ -68,6 +148,11 @@ var generateBtn = document.querySelector("#generate");
 function writePassword() {
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
+
+  for(var i = 0; i < length; i++) {
+    output += possibleCharacters[Math.floor(Math.random() * possibleCharacters.length)];
+  }
+  
 
   passwordText.value = password;
 
